@@ -28,7 +28,7 @@ export default function Home() {
           Deco - Heads
         </h1>
         <div className="container bg-stone-900 m-1 flex">
-          {filesData && filesData.files.map((item) => {
+          {filesData?.files.map((item) => {
             if (!dbData) return <>Loading...</>;
             const filter = dbData.results.rows.filter((row) => {
               const row2 = row as MyRow;
@@ -42,7 +42,6 @@ export default function Home() {
                 skin={"https://utfs.io/f/" + item.key}
                 width={100}
                 height={100}
-                control={true}
               />
               <span className="text-stone-300">
                 {inDb ? row.heads_name : "Not in DB"}
