@@ -31,7 +31,7 @@ const MinecraftHeadViewer = ({
       alpha: true,
       zoom: 2.5,
       fov: 5,
-      canvas: canvas.current as HTMLCanvasElement
+      canvas: canvas.current! as HTMLCanvasElement
     })
 
     // View control

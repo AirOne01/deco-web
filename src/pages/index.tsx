@@ -37,7 +37,7 @@ export default function Home() {
             const inDb = filter.length > 0 && filter[0]
             const row = filter[0] as MyRow;
 
-            return <div className={`flex flex-col items-center justify-center border-green-500 border-2 rounded-lg ${!inDb ? "border-red-500" : ""}`}>
+            return <div key={item.id} className={`flex flex-col items-center justify-center border-green-500 border-2 rounded-lg ${!inDb ? "border-red-500" : ""}`}>
               <MinecraftHeadViewer
                 skin={"https://utfs.io/f/" + item.key}
                 width={100}
