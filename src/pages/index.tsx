@@ -3,7 +3,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import { MinecraftHeadViewer } from "~/HeadViewer";
 import { api } from "~/utils/api";
-import { MultiUploader } from "./cusomUploader"
+import { MultiUploader } from "../CusomUploader"
 import { UploadButton } from "~/utils/uploadthing";
 
 type MyRow = {
