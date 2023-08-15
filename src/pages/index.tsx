@@ -21,22 +21,23 @@ export default function Home() {
         <h1 className="text-4xl font-bold p-2">
           Deco - Heads
         </h1>
-        <div className="container bg-stone-900 m-1 flex p-2 rounded-md">
+        <div className="container bg-stone-900 m-1 grid grid-cols-10 p-2 rounded-md">
           {dbData?.results.rows.map((item) => {
             try {
               const obj = ZodHeadsRowObject.parse(item);
 
-              return <div key={obj.heads_id} className={"flex flex-col items-center justify-center border-2 border-stone-800 rounded-lg"}>
+              return <div key={obj.heads_id} className={"flex flex-col items-center justify-start"}>
                 <MinecraftHeadViewer
                   skin={"http://textures.minecraft.net/texture/" + obj.heads_key}
                   width={100}
                   height={100}
                 />
-                <Link href={`/edit/${obj.heads_id}`} className="text-stone-300 underline">
+                <Link href={`/edit/${obj.heads_id}`} className="text-stone-300 underline text-center">
                   {obj.heads_name}
                 </Link>
               </div>
-            } catch {
+            } catch (err) {
+              console.error(err);
               return "Shit happened"
             }
           })}
