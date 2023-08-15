@@ -1,10 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { utapi } from "uploadthing/server";
+import { z } from "zod";
+import { conn } from "~/planetscale";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const obj = {
-    files: (await utapi.listFiles()).map((file) => file.key),
-  }
+  const { rows } = await conn.execute("SELECT heads_key FROM heads")
+  const valid = z.array(z.object({ heads_key: z.string() })).parse(rows)
+  const cleaned = valid.map((e) => e.heads_key)
 
-  res.status(200).json(obj)
+  res.status(200).json({
+    heads: cleaned
+  })
 }

@@ -1,17 +1,9 @@
 import { z } from "zod";
+import { conn } from "~/planetscale";
 import {
   createTRPCRouter,
   publicProcedure,
 } from "~/server/api/trpc";
-import { connect } from '@planetscale/database'
-
-const config = {
-  host: process.env.DATABASE_HOST,
-  username: process.env.DATABASE_USERNAME,
-  password: process.env.DATABASE_PASSWORD
-}
-
-const conn = connect(config)
 
 export const dbRouter = createTRPCRouter({
   get: publicProcedure
