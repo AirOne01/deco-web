@@ -26,7 +26,7 @@ export default function Home() {
             try {
               const obj = ZodHeadsRowObject.parse(item);
 
-              return <div className={"flex flex-col items-center justify-center border-2 border-stone-800 rounded-lg"}>
+              return <div key={obj.heads_id} className={"flex flex-col items-center justify-center border-2 border-stone-800 rounded-lg"}>
                 <MinecraftHeadViewer
                   skin={"http://textures.minecraft.net/texture/" + obj.heads_key}
                   width={100}

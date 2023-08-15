@@ -105,7 +105,7 @@ export default function Home() {
                         headName: {headName}
                       </span>
                       <span>
-                        headTags: {headTags.map((v) => <Chip variant="outlined" onDelete={() => setHeadTags(headTags.filter((v2) => v2 !== v))} label={v} />)} 
+                        headTags: {headTags.map((v) => <Chip key={"chip-"+v} variant="outlined" onDelete={() => setHeadTags(headTags.filter((v2) => v2 !== v))} label={v} />)} 
                       </span>
                     </div>
                     <div className="grow flex flex-col-reverse">
