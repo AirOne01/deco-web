@@ -1,5 +1,4 @@
 import { dbRouter } from "~/server/api/routers/db";
-import { filesRouter } from "~/server/api/routers/files";
 import { createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -9,7 +8,6 @@ import { createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   db: dbRouter,
-  files: filesRouter,
 });
 
 // export type definition of API
