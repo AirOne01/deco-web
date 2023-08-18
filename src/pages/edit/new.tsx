@@ -1,12 +1,10 @@
 import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import React from "react";
 import HeadEditor from "~/components/HeadEditor";
 
-export default function EditId() {
-  const router = useRouter()
-  const dbId = parseInt(router.query.id as string)
+export default function EditNew() {
+  const dbId = Math.floor(Math.random() * 100000)
 
   return (
     <>
@@ -24,7 +22,7 @@ export default function EditId() {
             Deco - Heads
           </h1>
           <div className="container bg-stone-900 m-1 flex p-2 rounded-md">
-            <HeadEditor dbId={dbId} actionType="UPDATE" />
+            <HeadEditor dbId={dbId} actionType="INSERT" />
           </div>
         </main>
       </SignedIn>

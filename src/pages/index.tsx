@@ -6,7 +6,7 @@ import { ZodHeadsRowObject } from "~/zod";
 import Link from "next/link";
 import Image from "next/image";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { LogInIcon } from "lucide-react";
+import { LogInIcon, SmilePlusIcon } from "lucide-react";
 
 export default function Home() {
   const { data: dbData } = api.db.getAll.useQuery();
@@ -61,11 +61,19 @@ export default function Home() {
           Deco - Heads
         </h1>
         <div className="container bg-stone-900 m-1 grid grid-cols-10 p-2 rounded-md">
+          <SignedIn>
+            <Link href="/edit/new" className="flex flex-col items-center justify-start">
+                <SmilePlusIcon className="h-[106px] aspect-square w-fit p-4" />
+                <div className="text-stone-300 underline text-center">
+                  New head
+                </div>
+            </Link>
+          </SignedIn>
           {dbData?.results.rows.map((item) => {
             try {
               const obj = ZodHeadsRowObject.parse(item);
 
-              return <Link href={`/edit/${obj.heads_id}`} key={obj.heads_id} className={"flex flex-col items-center justify-start"}>
+              return <Link href={`/edit/${obj.heads_id}`} key={obj.heads_id} className="flex flex-col items-center justify-start">
                 <Image
                   src={`https://mc-heads.net/head/` + obj.heads_key}
                   alt={obj.heads_name}

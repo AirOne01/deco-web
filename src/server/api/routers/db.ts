@@ -1,3 +1,4 @@
+import { ExecutedQuery } from "@planetscale/database";
 import { z } from "zod";
 import { conn } from "~/planetscale";
 import {
@@ -41,12 +42,18 @@ export const dbRouter = createTRPCRouter({
       name: z.string(),
       key: z.string(),
       tags: z.array(z.string()),
+      actionType: z.enum(["INSERT", "UPDATE"]),
     }))
     .mutation(async ({ input }) => {
-      console.log("MUTATION");
       const tags = input.tags.join(";")
-      const results = await conn.execute('update heads set heads_name = ?, heads_key = ?, heads_tags = ? where heads_id = ?', [input.name, input.key, tags, input.id])
-      console.log(JSON.stringify(results));
+
+      let results: ExecutedQuery;
+
+      if (input.actionType === "INSERT") {
+        results = await conn.execute('insert into heads (heads_name, heads_key, heads_tags) values (?, ?, ?)', [input.name, input.key, tags])
+      } else {
+        results = await conn.execute('update heads set heads_name = ?, heads_key = ?, heads_tags = ? where heads_id = ?', [input.name, input.key, tags, input.id])
+      }
 
       return {
         results,
