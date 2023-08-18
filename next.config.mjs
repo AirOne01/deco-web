@@ -21,6 +21,16 @@ const config = {
   experimental: {
     esmExternals: false, // Important for UploadThing
   },
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'mc-heads.net',
+        pathname: '/head/**'
+      }
+    ]
+  }
 };
 
 export default config;

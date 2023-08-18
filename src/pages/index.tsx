@@ -5,6 +5,7 @@ import { api } from "~/utils/api";
 import React from "react";
 import { ZodHeadsRowObject } from "~/zod";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
   const { data: dbData } = api.db.getAll.useQuery();
@@ -27,8 +28,9 @@ export default function Home() {
               const obj = ZodHeadsRowObject.parse(item);
 
               return <div key={obj.heads_id} className={"flex flex-col items-center justify-start"}>
-                <MinecraftHeadViewer
-                  skin={"http://textures.minecraft.net/texture/" + obj.heads_key}
+                <Image
+                  src={`https://mc-heads.net/head/` + obj.heads_key}
+                  alt={obj.heads_name}
                   width={100}
                   height={100}
                 />
