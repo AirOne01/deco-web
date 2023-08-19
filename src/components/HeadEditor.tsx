@@ -1,4 +1,4 @@
-import { Autocomplete, Button, Chip, Stack, TextField } from "@mui/material";
+import { Autocomplete, Button, Chip, Paper, Stack, TextField, Typography } from "@mui/material";
 import { MinecraftHeadViewer } from "./HeadViewer";
 import { api } from "../utils/api";
 import { ZodHeadsRowObject, ZodHeadsTagsRowsObject } from "../zod";
@@ -78,7 +78,7 @@ export default function HeadEditor({
   }
 
   return (
-    <div className="flex">
+    <div className="flex gap-4 max-w-2xl">
       <div className="flex flex-col items-center">
         <MinecraftHeadViewer
           skin={"http://textures.minecraft.net/texture/" + (headKey !== "" ? headKey : obj.heads_key)}
@@ -108,18 +108,14 @@ export default function HeadEditor({
         </Stack>
       </div>
       <div className="flex flex-col">
-        <div className="flex flex-col grow-0">
-          <span>
-            headName: {headName}
-          </span>
-          <span>
-            headTags: {headTags.map((v) => <Chip key={"chip-"+v} variant="outlined" onDelete={() => setHeadTags(headTags.filter((v2) => v2 !== v))} label={v} />)} 
-          </span>
+        <div className="flex flex-col grow-0 gap-2">
+          <Typography variant="h6">Tags</Typography>
+          <div className="flex flex-wrap gap-1">
+            {headTags.map((v) => <Chip key={"chip-"+v} variant="outlined" onDelete={() => setHeadTags(headTags.filter((v2) => v2 !== v))} label={v} />)} 
+          </div>
         </div>
         <div className="grow flex flex-col-reverse">
-          <Button variant="contained" onClick={() => handleValidate(obj)}>Validate</Button>
-          { updateIsSuccess ? <span>Success</span> : updateIsError ? JSON.stringify(updateFailureReason) : "Unknown error" }
-          { JSON.stringify(updateData) }
+          <Button variant="contained" onClick={() => handleValidate(obj)} className="w-fit">Validate</Button>
         </div>
       </div>
     </div>
