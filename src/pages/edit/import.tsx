@@ -8,18 +8,25 @@ import { api } from "~/utils/api";
 export default function Import() {
   const [field, setField] = React.useState("")
   const [buttonStatus, setButtonStatus] = React.useState("IDLE")
-  const { mutate, isSuccess } = api.db.update.useMutation()
+  const { mutate, isSuccess, isError } = api.db.update.useMutation()
 
   useEffect(() => {
     if (isSuccess) {
       setField("")
       setButtonStatus("SUCCESS")
-      // wait 1 second
       setTimeout(() => {
         setButtonStatus("IDLE")
       }, 1000)
     }
   }, [isSuccess])
+  useEffect(() => {
+    if (isError) {
+      setButtonStatus("FAIL")
+      setTimeout(() => {
+        setButtonStatus("IDLE")
+      }, 1000)
+    }
+  }, [isError])
 
   function handleValidate() {
     const keys = field.split("\n")

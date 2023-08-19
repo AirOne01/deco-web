@@ -17,7 +17,7 @@ export default function HeadEditor({
 }) {
   const { data: dbData } = api.db.get.useQuery(dbId)
   const { data: tagsData } = api.db.tags.useQuery();
-  const { mutate } = api.db.update.useMutation()
+  const { mutate, isSuccess, isError } = api.db.update.useMutation()
 
   const tags = tagsData?.results.rows.map((v) => ZodHeadsTagsRowsObject.parse(v))
   const tagsNames = tags?.map((v) => v.heads_tags_name)
@@ -25,6 +25,25 @@ export default function HeadEditor({
   const [headName, setHeadName] = React.useState("")
   const [headKey, setHeadKey] = React.useState("")
   const [headTags, setHeadTags] = React.useState<string[]>([])
+
+  const [buttonStatus, setButtonStatus] = React.useState("IDLE")
+
+  useEffect(() => {
+    if (isSuccess) {
+      setButtonStatus("SUCCESS")
+      setTimeout(() => {
+        setButtonStatus("IDLE")
+      }, 1000)
+    }
+  }, [isSuccess])
+  useEffect(() => {
+    if (isError) {
+      setButtonStatus("FAIL")
+      setTimeout(() => {
+        setButtonStatus("IDLE")
+      }, 1000)
+    }
+  }, [isError])
 
   function changeHandle(event: React.SyntheticEvent<Element, Event>, value: string) {
     // if the value is the same as the name of a tag, add the tag with setHeadTags
@@ -109,7 +128,14 @@ export default function HeadEditor({
           </div>
         </div>
         <div className="grow flex flex-col-reverse">
-          <Button variant="contained" onClick={() => handleValidate(obj)} className="w-fit">Validate</Button>
+          <Button
+            variant="contained"
+            onClick={() => handleValidate(obj)}
+            color={buttonStatus === "SUCCESS" ? "success" : buttonStatus === "FAIL" ? "error" : "primary"}
+            className="w-fit"
+          >
+            {buttonStatus === "SUCCESS" ? "OK!" : buttonStatus === "FAIL" ? "ERROR!" : "Validate"}
+          </Button>
         </div>
       </div>
     </div>
