@@ -60,7 +60,7 @@ export default function Home() {
         <h1 className="text-4xl font-bold p-2">
           Deco - Heads
         </h1>
-        <div className={`container bg-stone-900 m-1 grid-cols-10 p-2 rounded-md overflow-hidden grow ${!dbData ? 'p-0 flex flex-col' : 'grid' }`}>
+        <div className={`container bg-stone-900 m-1 grid-cols-10 rounded-md overflow-hidden grow ${!dbData ? 'p-0 flex flex-col' : 'grid p-2 gap-2' }`}>
           {!dbData && <LinearProgress className="w-full" />}
           {dbData && <SignedIn>
             <Link href="/edit/new" className="flex flex-col items-center justify-start">

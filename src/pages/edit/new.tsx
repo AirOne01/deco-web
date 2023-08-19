@@ -1,5 +1,6 @@
 import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
 import Head from "next/head";
+import Link from "next/link";
 import React from "react";
 import HeadEditor from "~/components/HeadEditor";
 
@@ -18,9 +19,9 @@ export default function EditNew() {
       </SignedOut>
       <SignedIn>
         <main className="flex min-h-screen flex-col items-center bg-gradient-to-b bg-stone-950 text-white p-4">
-          <h1 className="text-4xl font-bold p-2">
+          <Link href="/" className="text-4xl font-bold pb-4">
             Deco - Heads
-          </h1>
+          </Link>
           <div className="container bg-stone-900 m-1 flex p-2 rounded-md">
             <HeadEditor dbId={dbId} actionType="INSERT" />
           </div>

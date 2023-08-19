@@ -22,9 +22,9 @@ export default function EditId() {
       </SignedOut>
       <SignedIn>
         <main className="flex min-h-screen flex-col items-center bg-gradient-to-b bg-stone-950 text-white p-4">
-          <h1 className="text-4xl font-bold p-2">
+          <Link href="/" className="text-4xl font-bold pb-4 underline">
             Deco - Heads
-          </h1>
+          </Link>
           <div className="flex gap-10 justify-center items-start">
             <Link href={"/edit/" + (dbId - 1)} className="bg-stone-900 p-2 rounded-md">
               <ArrowLeftIcon className="w-8 h-8" />
