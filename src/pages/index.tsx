@@ -1,4 +1,4 @@
-import { Button, LinearProgress } from "@mui/material";
+import { Box, Button, FormControlLabel, FormGroup, LinearProgress, Modal, Switch } from "@mui/material";
 import Head from "next/head";
 import { api } from "~/utils/api";
 import React from "react";
@@ -6,11 +6,15 @@ import { ZodHeadsRowObject } from "~/zod";
 import Link from "next/link";
 import Image from "next/image";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { ImportIcon, LogInIcon, SmilePlusIcon } from "lucide-react";
+import { ImportIcon, LogInIcon, SettingsIcon, SmilePlusIcon } from "lucide-react";
 
 export default function Home() {
   const { data: dbData } = api.db.getAll.useQuery();
   const [detailsOpened, setDetailsOpened] = React.useState(false);
+
+  const [modalOpened, setModalOpened] = React.useState(false);
+  const [rightSide, setRightSide] = React.useState(false);
+  const [noHelm, setNoHelm] = React.useState(false);
 
   return (
     <>
@@ -29,22 +33,27 @@ export default function Home() {
             className="w-12 h-12"
           />
         </Link>
-        <SignedIn>
-          <UserButton
-            afterSignOutUrl="/"
-            appearance={{
-              elements: {
-                userButtonPopoverCard: 'py-2 bg-stone-900 text-stone-100',
-                userPreview: 'px-2',
-                userPreviewSecondaryIdentifier: 'text-stone-500',
-                userButtonPopoverActionButton: 'p-2 text-stone-100 hover:bg-stone-800',
-                userButtonPopoverActionButtonText: 'text-stone-100',
-                userButtonPopoverActionButtonIconBox: 'stroke-stone-100 fill-stone-100',
-                userButtonPopoverFooter: 'px-5 pt-1.5',
-              }
-            }}
-          />
-        </SignedIn>
+        <div className="flex gap-2">
+          <button onClick={() => setModalOpened(true)} className="border-stone-700 border rounded-full p-1.5 w-8 h-8">
+            <SettingsIcon className="w-full h-full"/>
+          </button>
+          <SignedIn>
+            <UserButton
+              afterSignOutUrl="/"
+              appearance={{
+                elements: {
+                  userButtonPopoverCard: 'py-2 bg-stone-900 text-stone-100',
+                  userPreview: 'px-2',
+                  userPreviewSecondaryIdentifier: 'text-stone-500',
+                  userButtonPopoverActionButton: 'p-2 text-stone-100 hover:bg-stone-800',
+                  userButtonPopoverActionButtonText: 'text-stone-100',
+                  userButtonPopoverActionButtonIconBox: 'stroke-stone-100 fill-stone-100',
+                  userButtonPopoverFooter: 'px-5 pt-1.5',
+                }
+              }}
+            />
+          </SignedIn>
+        </div>
         <SignedOut>
           <SignInButton
             afterSignInUrl="/"
@@ -57,6 +66,26 @@ export default function Home() {
         </SignedOut>
       </header>
       <main className="flex min-h-screen flex-col items-center bg-gradient-to-b bg-stone-950 text-white p-4">
+        <Modal
+          open={modalOpened}
+          onClose={() => setModalOpened(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box className="top-1/2 left-1/2 absolute bg-stone-900 rounded-md p-4">
+            <h1 className="text-2xl font-bold p-2">
+              Settings
+            </h1>
+            <FormGroup>
+              <FormControlLabel control={
+                <Switch checked={rightSide} onChange={(e) => setRightSide(!rightSide)} />
+              } label="Right-sided heads" />
+              <FormControlLabel control={
+                <Switch checked={noHelm} onChange={(e) => setNoHelm(!noHelm)} />
+              } label="No helmet (2nd layer of skin)" />
+            </FormGroup>
+          </Box>
+        </Modal>
         <h1 className="text-4xl font-bold p-2">
           Deco - Heads
         </h1>
@@ -80,9 +109,17 @@ export default function Home() {
             try {
               const obj = ZodHeadsRowObject.parse(item);
 
+              let src = `https://mc-heads.net/head/` + obj.heads_key + `/100`;
+              if (rightSide) {
+                src += "/left"
+              }
+              if (noHelm) {
+                src += "/nohelm"
+              }
+
               return <Link href={`/edit/${obj.heads_id}`} key={obj.heads_id} className="flex flex-col items-center justify-start">
                 <Image
-                  src={`https://mc-heads.net/head/` + obj.heads_key}
+                  src={src}
                   alt={obj.heads_name}
                   width={100}
                   height={100}
@@ -105,8 +142,8 @@ export default function Home() {
               {detailsOpened ? "Hide" : "Show"} JSON
             </Button>
             {detailsOpened && (
-              <p className="container bg-stone-950 p-2 rounded-md">
-                {JSON.stringify(dbData?.results.rows)}
+              <p className="container bg-stone-950 p-2 rounded-md whitespace-pre">
+                {JSON.stringify(dbData?.results.rows, null, 2)}
               </p>
             )}
           </div>
