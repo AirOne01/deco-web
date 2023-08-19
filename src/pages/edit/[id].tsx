@@ -1,5 +1,7 @@
 import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
+import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import HeadEditor from "~/components/HeadEditor";
@@ -23,8 +25,16 @@ export default function EditId() {
           <h1 className="text-4xl font-bold p-2">
             Deco - Heads
           </h1>
-          <div className="container bg-stone-900 m-1 flex p-2 rounded-md">
-            <HeadEditor dbId={dbId} actionType="UPDATE" />
+          <div className="flex gap-10 justify-center items-start">
+            <Link href={"/edit/" + (dbId - 1)} className="bg-stone-900 p-2 rounded-md">
+              <ArrowLeftIcon className="w-8 h-8" />
+            </Link>
+            <div className="container bg-stone-900 flex p-2 rounded-md">
+              <HeadEditor dbId={dbId} actionType="UPDATE" />
+            </div>
+            <Link href={"/edit/" + (dbId + 1)} className="bg-stone-900 p-2 rounded-md">
+              <ArrowRightIcon className="w-8 h-8" />
+            </Link>
           </div>
         </main>
       </SignedIn>

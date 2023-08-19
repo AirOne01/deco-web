@@ -29,8 +29,8 @@ export default function HeadEditor({
   const tagsNames = tags?.map((v) => v.heads_tags_name)
 
   const [headName, setHeadName] = React.useState("")
-  const [headTags, setHeadTags] = React.useState<string[]>([])
   const [headKey, setHeadKey] = React.useState("")
+  const [headTags, setHeadTags] = React.useState<string[]>([])
 
   function changeHandle(event: React.SyntheticEvent<Element, Event>, value: string) {
     // if the value is the same as the name of a tag, add the tag with setHeadTags
@@ -60,6 +60,8 @@ export default function HeadEditor({
     if (!dbData || !tagsData ||  dbData.results.rows.length === 0) return
     const obj = ZodHeadsRowObject.parse(dbData!.results.rows[0]);
     setHeadTags(obj.heads_tags.split(";"))
+    setHeadName(obj.heads_name)
+    setHeadKey(obj.heads_key)
   }, [dbData, tagsData])
 
   const tagsNamesWithoutChosen = tagsNames?.filter((v) => !headTags.includes(v))
@@ -84,8 +86,8 @@ export default function HeadEditor({
           height={300}
         />
         <Stack spacing={2} sx={{ width: 300 }}>
-          <TextField id="standard-basic" label="Title" variant="standard" defaultValue={obj.heads_name} onChange={(e) => setHeadName(e.target.value)} />
-          <TextField id="standard-basic" label="Key" variant="standard" defaultValue={obj.heads_key} onChange={(e) => setHeadKey(e.target.value)} />
+          <TextField id="standard-basic" label="Title" variant="standard" value={headName} onChange={(e) => setHeadName(e.target.value)} />
+          <TextField id="standard-basic" label="Key" variant="standard" value={headKey} onChange={(e) => setHeadKey(e.target.value)} />
           <Autocomplete
             freeSolo
             id="free-solo-2-demo"
