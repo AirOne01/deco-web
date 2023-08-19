@@ -6,7 +6,7 @@ import { ZodHeadsRowObject } from "~/zod";
 import Link from "next/link";
 import Image from "next/image";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { LogInIcon, SmilePlusIcon } from "lucide-react";
+import { ImportIcon, LogInIcon, SmilePlusIcon } from "lucide-react";
 
 export default function Home() {
   const { data: dbData } = api.db.getAll.useQuery();
@@ -67,6 +67,12 @@ export default function Home() {
                 <SmilePlusIcon className="h-[106px] aspect-square w-fit p-4" />
                 <div className="text-stone-300 underline text-center">
                   New head
+                </div>
+            </Link>
+            <Link href="/edit/import" className="flex flex-col items-center justify-start">
+                <ImportIcon className="h-[106px] aspect-square w-fit p-4" />
+                <div className="text-stone-300 underline text-center">
+                  Import heads
                 </div>
             </Link>
           </SignedIn>}

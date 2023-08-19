@@ -17,13 +17,7 @@ export default function HeadEditor({
 }) {
   const { data: dbData } = api.db.get.useQuery(dbId)
   const { data: tagsData } = api.db.tags.useQuery();
-  const {
-    mutate: updateMutate,
-    isSuccess: updateIsSuccess,
-    failureReason: updateFailureReason,
-    isError: updateIsError,
-    data: updateData
-  } = api.db.update.useMutation()
+  const { mutate } = api.db.update.useMutation()
 
   const tags = tagsData?.results.rows.map((v) => ZodHeadsTagsRowsObject.parse(v))
   const tagsNames = tags?.map((v) => v.heads_tags_name)
@@ -52,7 +46,7 @@ export default function HeadEditor({
     const tags = headTags
     const key = headKey === "" ? obj.heads_key : headKey
 
-    updateMutate({ id, name, tags, key, actionType })
+    mutate({ id, name, tags, key, actionType })
     return true
   }
 

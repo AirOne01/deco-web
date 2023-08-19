@@ -38,7 +38,7 @@ export const dbRouter = createTRPCRouter({
     }),
   update: publicProcedure
     .input(z.object({
-      id: z.number(),
+      id: z.number().optional(),
       name: z.string(),
       key: z.string(),
       tags: z.array(z.string()),
@@ -52,6 +52,9 @@ export const dbRouter = createTRPCRouter({
       if (input.actionType === "INSERT") {
         results = await conn.execute('insert into heads (heads_name, heads_key, heads_tags) values (?, ?, ?)', [input.name, input.key, tags])
       } else {
+        if (!input.id) {
+          throw new Error("id is required for update")
+        }
         results = await conn.execute('update heads set heads_name = ?, heads_key = ?, heads_tags = ? where heads_id = ?', [input.name, input.key, tags, input.id])
       }
 
