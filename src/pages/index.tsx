@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, LinearProgress } from "@mui/material";
 import Head from "next/head";
 import { api } from "~/utils/api";
 import React from "react";
@@ -60,15 +60,16 @@ export default function Home() {
         <h1 className="text-4xl font-bold p-2">
           Deco - Heads
         </h1>
-        <div className="container bg-stone-900 m-1 grid grid-cols-10 p-2 rounded-md">
-          <SignedIn>
+        <div className={`container bg-stone-900 m-1 grid-cols-10 p-2 rounded-md overflow-hidden grow ${!dbData ? 'p-0 flex flex-col' : 'grid' }`}>
+          {!dbData && <LinearProgress className="w-full" />}
+          {dbData && <SignedIn>
             <Link href="/edit/new" className="flex flex-col items-center justify-start">
                 <SmilePlusIcon className="h-[106px] aspect-square w-fit p-4" />
                 <div className="text-stone-300 underline text-center">
                   New head
                 </div>
             </Link>
-          </SignedIn>
+          </SignedIn>}
           {dbData?.results.rows.map((item) => {
             try {
               const obj = ZodHeadsRowObject.parse(item);
@@ -79,7 +80,8 @@ export default function Home() {
                   alt={obj.heads_name}
                   width={100}
                   height={100}
-                  className="overflow-hidden"
+                  loading="lazy"
+                  unselectable="on"
                 />
                 <div className="text-stone-300 underline text-center">
                   {obj.heads_name}
