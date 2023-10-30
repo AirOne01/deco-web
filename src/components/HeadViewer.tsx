@@ -1,4 +1,4 @@
-import { SkinViewer, createOrbitControls, WalkingAnimation } from "headview3d";
+import { SkinViewer, createOrbitControls } from "headview3d";
 import React from "react";
 
 export type MinecraftHeadViewerProps = {

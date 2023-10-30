@@ -2,20 +2,13 @@ import { dark } from '@clerk/themes';
 import { type Session } from "next-auth";
 import { type AppType } from "next/app";
 import { api } from "~/utils/api";
-import { ThemeProvider } from "@mui/material/styles";
 import "~/styles/globals.css";
-import { CssBaseline, createTheme } from "@mui/material";
 import { ClerkProvider } from "@clerk/nextjs";
-
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-});
+import { ThemeProvider } from '~/components/theme-provider';
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
-  pageProps: { session, ...pageProps },
+  pageProps: { ...pageProps },
 }) => {
   return (
     <ClerkProvider
@@ -24,8 +17,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
       }}
       {...pageProps}
     >
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
+      <ThemeProvider
+        attribute='class'
+        defaultTheme='system'
+        enableSystem
+      >
         <Component {...pageProps} />
       </ThemeProvider>
     </ClerkProvider>

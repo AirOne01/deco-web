@@ -5,6 +5,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import HeadEditor from "~/components/HeadEditor";
+import Header from "~/components/header";
+import { Button } from "~/components/ui/button";
+import { H1 } from "~/components/ui/typography";
 
 export default function EditId() {
   const router = useRouter()
@@ -21,19 +24,18 @@ export default function EditId() {
         <RedirectToSignIn />
       </SignedOut>
       <SignedIn>
-        <main className="flex min-h-screen flex-col items-center bg-gradient-to-b bg-stone-950 text-white p-4">
-          <Link href="/" className="text-4xl font-bold pb-4 underline">
-            Deco - Heads
-          </Link>
+        <Header />
+        <main className="flex min-h-screen flex-col items-center bg-background text-foreground">
+          <Link href="/" className="pb-4"><H1>Head editor</H1></Link>
           <div className="flex gap-10 justify-center items-start">
-            <Link href={"/edit/" + (dbId - 1)} className="bg-stone-900 p-2 rounded-md">
-              <ArrowLeftIcon className="w-8 h-8" />
+            <Link href={"/edit/" + (dbId - 1)} className="p-2 rounded-md">
+              <Button variant="outline" className="w-10 h-10 p-0"><ArrowLeftIcon /></Button>
             </Link>
-            <div className="container bg-stone-900 flex p-2 rounded-md">
+            <div className="container flex p-2 rounded-md">
               <HeadEditor dbId={dbId} actionType="UPDATE" />
             </div>
-            <Link href={"/edit/" + (dbId + 1)} className="bg-stone-900 p-2 rounded-md">
-              <ArrowRightIcon className="w-8 h-8" />
+            <Link href={"/edit/" + (dbId + 1)} className="p-2 rounded-md">
+              <Button variant="outline" className="w-10 h-10 p-0"><ArrowRightIcon /></Button>
             </Link>
           </div>
         </main>
