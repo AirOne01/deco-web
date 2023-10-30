@@ -6,7 +6,7 @@ import { ModeToggle } from "./ui/theme-toggle";
 import { OptionsToggle } from "./ui/options-toggle";
 import { Button } from "./ui/button";
 
-export default function Header({
+function Header({
   setRightSide,
   rightSide,
   setNoHelm,
@@ -18,11 +18,11 @@ export default function Header({
   noHelm?: boolean,
 }) {
   return (
-    <header className="bg-stone-950 flex items-center justify-between px-2 text-white">
+    <header className="flex items-center justify-between px-2 text-white w-full">
       <Link href="/">
         <BoxesIcon />
       </Link>
-      <div className="flex gap-2">
+      <section className="flex gap-2">
         <SignedIn>
           <UserButton
             afterSignOutUrl="/"
@@ -48,19 +48,20 @@ export default function Header({
             noHelm={noHelm}
           />
         )}
-      </div>
-      <SignedOut>
-        <SignInButton
-          afterSignInUrl="/"
-          mode="modal"
-        >
-          <Button variant="outline" size="icon">
-            <LogInIcon className="h-[1.2rem] w-[1.2rem]"/>
-            <span className="sr-only">Sign In</span>
-          </Button>
-        </SignInButton>
-      </SignedOut>
+        <SignedOut>
+          <SignInButton
+            afterSignInUrl="/"
+            mode="modal"
+          >
+            <Button variant="outline" size="icon">
+              <LogInIcon className="h-[1.2rem] w-[1.2rem]"/>
+              <span className="sr-only">Sign In</span>
+            </Button>
+          </SignInButton>
+        </SignedOut>
+      </section>
     </header>
   )
 }
-      
+    
+export default Header;
